@@ -28,23 +28,23 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #151D1A;
-      --text: #e2e2e2;
-      --surface: #1f1f1f;
-      --border: #2d2d2d;
-      --title: #c8c8c8;
-      --accent: #6b9de8;
-      --accent-bg: #1a2540;
-      --accent-hover: #1e2d4d;
-      --muted: #888888;
-      --muted2: #606060;
-      --chip-text: #a0a0a0;
-      --chip-active-bg: #1e3060;
-      --summary-bg: #161616;
-      --summary-text: #a8a8a8;
-      --input-border: #333333;
-      --neu-bg: #242424;
-      --neu-text: #888888;
+      --bg: #657F9F;
+      --text: #f0f4f8;
+      --surface: #536a87;
+      --border: #445a73;
+      --title: #e8f0f8;
+      --accent: #aaccf0;
+      --accent-bg: #3a4f66;
+      --accent-hover: #304460;
+      --muted: #b8cce0;
+      --muted2: #90a8c0;
+      --chip-text: #d0e0f0;
+      --chip-active-bg: #2d4a6a;
+      --summary-bg: #445a73;
+      --summary-text: #c8dce8;
+      --input-border: #445a73;
+      --neu-bg: #546a84;
+      --neu-text: #b0c4d8;
     }
   }
 
@@ -182,8 +182,8 @@ function isDark() {
 
 function applyChartDefaults() {
   if (isDark()) {
-    Chart.defaults.color = '#888888';
-    Chart.defaults.borderColor = '#2d2d2d';
+    Chart.defaults.color = '#b8cce0';
+    Chart.defaults.borderColor = '#445a73';
   } else {
     Chart.defaults.color = '#666';
     Chart.defaults.borderColor = 'rgba(0,0,0,0.1)';
@@ -244,8 +244,8 @@ function updateDashboard() {
   const keys = Object.keys(bucket).sort();
   document.getElementById("dailyTitle").textContent = byWeek ? "주별 기사량 추이" : "일별 기사량 추이";
 
-  const lineBlue = isDark() ? "#6b9de8" : "#2d5aa8";
-  const lineBlueBg = isDark() ? "rgba(107,157,232,.15)" : "rgba(45,90,168,.12)";
+  const lineBlue = isDark() ? "#aaccf0" : "#2d5aa8";
+  const lineBlueBg = isDark() ? "rgba(170,204,240,.2)" : "rgba(45,90,168,.12)";
 
   drawChart("chDaily", {
     type: "line",
