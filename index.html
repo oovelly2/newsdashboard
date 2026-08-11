@@ -33,6 +33,8 @@
     --kw-color: #4d7045;
     --badge-bg: #e8f0e6;
     --badge-color: #4d7045;
+    --cat-bg: #e8f0e6;
+    --cat-color: #3a5631;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -61,6 +63,8 @@
       --kw-color: #899e8c;
       --badge-bg: #2a3828;
       --badge-color: #899e8c;
+      --cat-bg: #2a3828;
+      --cat-color: #6e8872;
     }
   }
 
@@ -106,7 +110,7 @@
   .article { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
   .article.negative { border-left: 4px solid var(--neg); }
   .article .top { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
-  .article .cat { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 700; }
+  .article .cat { font-size: 11px; background: var(--cat-bg); color: var(--cat-color); padding: 2px 8px; border-radius: 8px; font-weight: 700; }
   .article .senti { font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
   .senti.pos { background: var(--pos-bg); color: var(--pos-text); }
   .senti.neu { background: var(--neu-bg); color: var(--neu-text); }
