@@ -53,7 +53,7 @@
       --neu-text: #ffffff;
       --pos-bg: #657F9F;
       --pos-text: #ffffff;
-      --neg: #c46868;
+      --neg: #a86464;
       --article-title: #b8b8b8;
       --stat-value: #899e8c;
       --kw-color: #899e8c;
@@ -264,7 +264,7 @@ function updateDashboard() {
     data: { labels: keys.map(k => byWeek ? md(k) + "~" : md(k)),
       datasets: [
         { label: "전체", data: keys.map(k => bucket[k]), borderColor: lineBlue, backgroundColor: lineBlueBg, fill: true, tension: .35, pointRadius: 3 },
-        { label: "부정", data: keys.map(k => negBucket[k]), borderColor: isDark() ? "#c46868" : "#e5484d", fill: false, tension: .35, pointRadius: 3 }
+        { label: "부정", data: keys.map(k => negBucket[k]), borderColor: isDark() ? "#a86464" : "#e5484d", fill: false, tension: .35, pointRadius: 3 }
       ] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: true, position: "top", labels: { boxWidth: 24, font: { size: 11 } } } }, scales: { y: { beginAtZero: true } } }
   });
@@ -283,7 +283,7 @@ function updateDashboard() {
   drawChart("chSenti", {
     type: "bar",
     data: { labels: ["긍정", "중립", "부정"],
-      datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: ["#34a853", "#9aa4b5", isDark() ? "#c46868" : "#e5484d"], borderRadius: 6 }] },
+      datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: ["#34a853", "#9aa4b5", isDark() ? "#a86464" : "#e5484d"], borderRadius: 6 }] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
   });
 
