@@ -287,7 +287,11 @@ function updateDashboard() {
   drawChart("chSenti", {
     type: "bar",
     data: { labels: ["긍정", "중립", "부정"],
-      datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: ["#34a853", "#9aa4b5", isDark() ? "#a86464" : "#e5484d"], borderRadius: 6 }] },
+      datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: [
+          isDark() ? "#657F9F" : "#6781A1",
+          isDark() ? "#84888D" : "#919499",
+          isDark() ? "#a86464" : "#E14241"
+        ], borderRadius: 6 }] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
   });
 
