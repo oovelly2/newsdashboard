@@ -7,66 +7,107 @@
 <title>핀포인트 — 화성시 언론보도 대시보드</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Pretendard', 'Malgun Gothic', sans-serif; background: #f4f6fa; color: #1a2332; }
+  :root {
+    --bg: #F5F7F5;
+    --text: #1a2332;
+    --surface: #ffffff;
+    --border: #e3e8f0;
+    --title: #17335c;
+    --accent: #2d5aa8;
+    --accent-bg: #eef3fb;
+    --accent-hover: #dce7f7;
+    --muted: #7a8599;
+    --muted2: #9aa4b5;
+    --chip-text: #4a5568;
+    --chip-active-bg: #17335c;
+    --summary-bg: #f8f9fc;
+    --summary-text: #4a5568;
+    --input-border: #d5dce8;
+    --neu-bg: #f0f1f4;
+    --neu-text: #5a6577;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151D1A;
+      --text: #dde8e2;
+      --surface: #1d2822;
+      --border: #2c3c34;
+      --title: #b0d4be;
+      --accent: #5db386;
+      --accent-bg: #1c3028;
+      --accent-hover: #243c30;
+      --muted: #7a9988;
+      --muted2: #587868;
+      --chip-text: #9ab8a8;
+      --chip-active-bg: #2a4a38;
+      --summary-bg: #141d18;
+      --summary-text: #a8c8b4;
+      --input-border: #2c3c34;
+      --neu-bg: #242e28;
+      --neu-text: #8aa898;
+    }
+  }
 
-  header { background: #fff; border-bottom: 1px solid #e3e8f0; padding: 14px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  header h1 { font-size: 18px; color: #17335c; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', 'Malgun Gothic', sans-serif; background: var(--bg); color: var(--text); }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  header h1 { font-size: 18px; color: var(--title); }
   header h1 .pin { color: #e5484d; }
-  header .badge { font-size: 11px; background: #eef3fb; color: #2d5aa8; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
-  header .period { margin-left: auto; font-size: 12px; color: #7a8599; }
+  header .badge { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+  header .period { margin-left: auto; font-size: 12px; color: var(--muted); }
 
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
 
   .period-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
-  .period-bar .label { font-size: 12px; color: #7a8599; font-weight: 600; }
+  .period-bar .label { font-size: 12px; color: var(--muted); font-weight: 600; }
 
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-  .stat { background: #fff; border: 1px solid #e3e8f0; border-radius: 12px; padding: 14px 16px; }
-  .stat .label { font-size: 12px; color: #7a8599; margin-bottom: 4px; }
-  .stat .value { font-size: 26px; font-weight: 800; color: #17335c; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .stat .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .stat .value { font-size: 26px; font-weight: 800; color: var(--title); }
   .stat .value.neg { color: #e5484d; }
-  .stat .sub { font-size: 11px; color: #9aa4b5; margin-top: 2px; }
+  .stat .sub { font-size: 11px; color: var(--muted2); margin-top: 2px; }
 
   .charts { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-  .card { background: #fff; border: 1px solid #e3e8f0; border-radius: 12px; padding: 14px 16px; }
-  .card h3 { font-size: 13px; color: #17335c; margin-bottom: 10px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .card h3 { font-size: 13px; color: var(--title); margin-bottom: 10px; }
   .chart-box { position: relative; height: 180px; }
 
   .keywords { margin-bottom: 16px; }
   .kw-list { display: flex; gap: 8px; flex-wrap: wrap; }
-  .kw { background: #eef3fb; color: #2d5aa8; font-size: 12px; padding: 4px 12px; border-radius: 14px; font-weight: 600; cursor: pointer; }
-  .kw:hover { background: #dce7f7; }
-  .kw b { color: #17335c; }
+  .kw { background: var(--accent-bg); color: var(--accent); font-size: 12px; padding: 4px 12px; border-radius: 14px; font-weight: 600; cursor: pointer; }
+  .kw:hover { background: var(--accent-hover); }
+  .kw b { color: var(--title); }
 
   .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
-  .toolbar input { flex: 1; min-width: 160px; padding: 8px 14px; border: 1px solid #d5dce8; border-radius: 20px; font-size: 13px; outline: none; background: #fff; }
-  .toolbar input:focus { border-color: #2d5aa8; }
-  .chip { padding: 6px 13px; border: 1px solid #d5dce8; border-radius: 16px; background: #fff; font-size: 12px; cursor: pointer; user-select: none; color: #4a5568; }
-  .chip.active { background: #17335c; color: #fff; border-color: #17335c; }
+  .toolbar input { flex: 1; min-width: 160px; padding: 8px 14px; border: 1px solid var(--input-border); border-radius: 20px; font-size: 13px; outline: none; background: var(--surface); color: var(--text); }
+  .toolbar input:focus { border-color: var(--accent); }
+  .chip { padding: 6px 13px; border: 1px solid var(--input-border); border-radius: 16px; background: var(--surface); font-size: 12px; cursor: pointer; user-select: none; color: var(--chip-text); }
+  .chip.active { background: var(--chip-active-bg); color: #fff; border-color: var(--chip-active-bg); }
   .chip.neg.active { background: #e5484d; border-color: #e5484d; }
 
-  .article { background: #fff; border: 1px solid #e3e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .article { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
   .article.negative { border-left: 4px solid #e5484d; }
   .article .top { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
-  .article .cat { font-size: 11px; background: #eef3fb; color: #2d5aa8; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
+  .article .cat { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 700; }
   .article .senti { font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
   .senti.pos { background: #e7f6ec; color: #1b7a34; }
-  .senti.neu { background: #f0f1f4; color: #5a6577; }
+  .senti.neu { background: var(--neu-bg); color: var(--neu-text); }
   .senti.neg { background: #fdebec; color: #c62828; }
-  .article .date { font-size: 11px; color: #9aa4b5; margin-left: auto; }
+  .article .date { font-size: 11px; color: var(--muted2); margin-left: auto; }
   .article .title { font-size: 14.5px; font-weight: 700; margin-bottom: 5px; }
-  .article .summary { font-size: 12.5px; color: #4a5568; line-height: 1.6; background: #f8f9fc; border-radius: 8px; padding: 8px 12px; }
-  .article .summary .ai { font-size: 10.5px; color: #2d5aa8; font-weight: 700; margin-right: 6px; }
-  .list-count { font-size: 12px; color: #7a8599; margin-bottom: 8px; }
+  .article .summary { font-size: 12.5px; color: var(--summary-text); line-height: 1.6; background: var(--summary-bg); border-radius: 8px; padding: 8px 12px; }
+  .article .summary .ai { font-size: 10.5px; color: var(--accent); font-weight: 700; margin-right: 6px; }
+  .list-count { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
 
   .more-wrap { text-align: center; margin: 14px 0; }
-  .more-btn { padding: 9px 34px; border: 1px solid #d5dce8; border-radius: 20px; background: #fff; font-size: 13px; font-weight: 600; color: #2d5aa8; cursor: pointer; }
-  .more-btn:hover { border-color: #2d5aa8; }
+  .more-btn { padding: 9px 34px; border: 1px solid var(--input-border); border-radius: 20px; background: var(--surface); font-size: 13px; font-weight: 600; color: var(--accent); cursor: pointer; }
+  .more-btn:hover { border-color: var(--accent); }
 
   .load-error { background: #fdebec; border: 1px solid #f5c2c5; color: #c62828; border-radius: 12px; padding: 16px; font-size: 13px; line-height: 1.7; margin-bottom: 16px; }
 
-  footer { text-align: center; font-size: 11px; color: #9aa4b5; padding: 10px 0 30px; }
+  footer { text-align: center; font-size: 11px; color: var(--muted2); padding: 10px 0 30px; }
   @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } .charts { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -126,16 +167,29 @@ const CAT_LABEL = { "교통": "교통", "환경": "환경", "행정": "행정", 
 const SENTI_CLASS = { "긍정": "pos", "중립": "neu", "부정": "neg" };
 const PAGE_SIZE = 20;
 
-let NEWS = [];        // news_data.json에서 로드
-let period = "all";   // all | 7 | 30
-let filter = "all";   // 분야 또는 "부정"
+let NEWS = [];
+let period = "all";
+let filter = "all";
 let visibleCount = PAGE_SIZE;
-const charts = {};    // 기간 변경 시 다시 그리기 위한 Chart 인스턴스 보관
+const charts = {};
 
 const fmtDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const md = s => s.slice(5).replace("-", "/");
 
-// 선택된 기간에 해당하는 기사만 반환 (기준일은 데이터의 마지막 날짜)
+function isDark() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function applyChartDefaults() {
+  if (isDark()) {
+    Chart.defaults.color = '#8aa898';
+    Chart.defaults.borderColor = '#2c3c34';
+  } else {
+    Chart.defaults.color = '#666';
+    Chart.defaults.borderColor = 'rgba(0,0,0,0.1)';
+  }
+}
+
 function periodData() {
   if (period === "all") return NEWS;
   const last = NEWS.reduce((m, n) => n.date > m ? n.date : m, NEWS[0].date);
@@ -145,7 +199,6 @@ function periodData() {
   return NEWS.filter(n => n.date >= cut);
 }
 
-// 해당 날짜가 속한 주의 월요일 날짜 (전체 기간일 때 주 단위 묶음용)
 function weekStart(dateStr) {
   const d = new Date(dateStr + "T00:00:00");
   d.setDate(d.getDate() - (d.getDay() + 6) % 7);
@@ -157,7 +210,6 @@ function drawChart(id, config) {
   charts[id] = new Chart(document.getElementById(id), config);
 }
 
-// 통계 카드·키워드·차트 3종을 선택 기간 기준으로 다시 계산
 function updateDashboard() {
   const data = periodData();
 
@@ -182,7 +234,6 @@ function updateDashboard() {
   document.getElementById("kwList").innerHTML = kwSorted.slice(0, 8)
     .map(([k, c]) => `<span class="kw">${k} <b>${c}</b></span>`).join("");
 
-  // 기사량 추이 — 전체 기간은 주 단위, 7일/30일은 일 단위. 전체 기사와 부정 기사를 함께 표시
   const byWeek = period === "all";
   const bucket = {}, negBucket = {};
   data.forEach(n => {
@@ -192,11 +243,15 @@ function updateDashboard() {
   });
   const keys = Object.keys(bucket).sort();
   document.getElementById("dailyTitle").textContent = byWeek ? "주별 기사량 추이" : "일별 기사량 추이";
+
+  const lineBlue = isDark() ? "#5db386" : "#2d5aa8";
+  const lineBlueBg = isDark() ? "rgba(93,179,134,.15)" : "rgba(45,90,168,.12)";
+
   drawChart("chDaily", {
     type: "line",
     data: { labels: keys.map(k => byWeek ? md(k) + "~" : md(k)),
       datasets: [
-        { label: "전체", data: keys.map(k => bucket[k]), borderColor: "#2d5aa8", backgroundColor: "rgba(45,90,168,.12)", fill: true, tension: .35, pointRadius: 3 },
+        { label: "전체", data: keys.map(k => bucket[k]), borderColor: lineBlue, backgroundColor: lineBlueBg, fill: true, tension: .35, pointRadius: 3 },
         { label: "부정", data: keys.map(k => negBucket[k]), borderColor: "#e5484d", fill: false, tension: .35, pointRadius: 3 }
       ] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: true, position: "top", labels: { boxWidth: 24, font: { size: 11 } } } }, scales: { y: { beginAtZero: true } } }
@@ -222,7 +277,6 @@ function updateDashboard() {
   renderList();
 }
 
-// 기사 목록 — 기간·분야·검색 필터 적용 후 20건씩 더보기
 function renderList() {
   const q = document.getElementById("search").value.trim();
   const data = periodData().filter(n => {
@@ -264,7 +318,6 @@ document.querySelectorAll(".cat-chip").forEach(c => c.addEventListener("click", 
 document.getElementById("search").addEventListener("input", () => { visibleCount = PAGE_SIZE; renderList(); });
 document.getElementById("moreBtn").addEventListener("click", () => { visibleCount += PAGE_SIZE; renderList(); });
 
-// 키워드 칩 클릭 → 검색창 자동 입력 + 목록 필터링 (칩은 매번 새로 그려지므로 이벤트 위임)
 document.getElementById("kwList").addEventListener("click", e => {
   const chip = e.target.closest(".kw");
   if (!chip) return;
@@ -273,8 +326,13 @@ document.getElementById("kwList").addEventListener("click", e => {
   renderList();
 });
 
-// 데이터 로드 — 실패 시 안내 문구 표시
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  applyChartDefaults();
+  if (NEWS.length) updateDashboard();
+});
+
 async function init() {
+  applyChartDefaults();
   try {
     const res = await fetch("news_data.json");
     if (!res.ok) throw new Error("HTTP " + res.status);
