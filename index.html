@@ -83,7 +83,11 @@
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
 
   .period-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
-  .period-bar .label { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .period-bar .label { font-size: 14px; color: var(--muted); font-weight: 600; }
+  .date-range-wrap { display: none; align-items: center; gap: 6px; }
+  .date-input { padding: 5px 10px; border: 1px solid var(--input-border); border-radius: 12px; font-size: 12px; background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
+  .date-input:focus { border-color: var(--accent); }
+  .date-sep { font-size: 12px; color: var(--muted); }
 
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
   .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
@@ -148,6 +152,12 @@
     <span class="chip period-chip active" data-p="all">전체</span>
     <span class="chip period-chip" data-p="7">최근 7일</span>
     <span class="chip period-chip" data-p="30">최근 30일</span>
+    <span class="chip period-chip" data-p="custom">날짜 선택</span>
+    <span class="date-range-wrap" id="dateRangeWrap">
+      <input type="date" id="dateFrom" class="date-input">
+      <span class="date-sep">~</span>
+      <input type="date" id="dateTo" class="date-input">
+    </span>
   </div>
 
   <div class="stats">
@@ -194,6 +204,7 @@ const PAGE_SIZE = 20;
 
 let NEWS = [];
 let period = "all";
+let customFrom = "", customTo = "";
 let filter = "all";
 let visibleCount = PAGE_SIZE;
 const charts = {};
@@ -217,6 +228,9 @@ function applyChartDefaults() {
 
 function periodData() {
   if (period === "all") return NEWS;
+  if (period === "custom") {
+    return NEWS.filter(n => (!customFrom || n.date >= customFrom) && (!customTo || n.date <= customTo));
+  }
   const last = NEWS.reduce((m, n) => n.date > m ? n.date : m, NEWS[0].date);
   const d = new Date(last + "T00:00:00");
   d.setDate(d.getDate() - (Number(period) - 1));
@@ -337,8 +351,11 @@ document.querySelectorAll(".period-chip").forEach(c => c.addEventListener("click
   document.querySelectorAll(".period-chip").forEach(x => x.classList.remove("active"));
   c.classList.add("active");
   period = c.dataset.p;
+  document.getElementById("dateRangeWrap").style.display = period === "custom" ? "flex" : "none";
   updateDashboard();
 }));
+document.getElementById("dateFrom").addEventListener("change", e => { customFrom = e.target.value; updateDashboard(); });
+document.getElementById("dateTo").addEventListener("change", e => { customTo = e.target.value; updateDashboard(); });
 document.querySelectorAll(".cat-chip").forEach(c => c.addEventListener("click", () => {
   document.querySelectorAll(".cat-chip").forEach(x => x.classList.remove("active"));
   c.classList.add("active");
