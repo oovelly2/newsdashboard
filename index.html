@@ -55,8 +55,8 @@
       --pos-text: #ffffff;
       --neg: #c46868;
       --article-title: #b8b8b8;
-      --stat-value: #7aaa82;
-      --kw-color: #7aaa82;
+      --stat-value: #899e8c;
+      --kw-color: #899e8c;
     }
   }
 
@@ -256,8 +256,8 @@ function updateDashboard() {
   const keys = Object.keys(bucket).sort();
   document.getElementById("dailyTitle").textContent = byWeek ? "주별 기사량 추이" : "일별 기사량 추이";
 
-  const lineBlue = isDark() ? "#7aaa82" : "#4d7045";
-  const lineBlueBg = isDark() ? "rgba(122,170,130,.15)" : "rgba(77,112,69,.12)";
+  const lineBlue = isDark() ? "#899e8c" : "#4d7045";
+  const lineBlueBg = isDark() ? "rgba(137,158,140,.15)" : "rgba(77,112,69,.12)";
 
   drawChart("chDaily", {
     type: "line",
@@ -273,7 +273,7 @@ function updateDashboard() {
     type: "doughnut",
     data: { labels: Object.keys(catCount).map(c => CAT_LABEL[c]),
       datasets: [{ data: Object.values(catCount), backgroundColor: isDark()
-          ? ["#7aaa82", "#5d8a65", "#96c49e", "#467050", "#b0d8b6", "#33553c", "#c8e8cc"]
+          ? ["#899e8c", "#6e8272", "#a4b5a7", "#565f58", "#bcc8be", "#3e4840", "#d0d8d2"]
           : ["#4d7045", "#385632", "#648f5a", "#264528", "#7db870", "#183320", "#97cc8a"] }] },
     options: { maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { boxWidth: 10, font: { size: 10 } } } } }
   });
