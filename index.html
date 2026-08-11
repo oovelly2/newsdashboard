@@ -25,6 +25,8 @@
     --input-border: #d5dce8;
     --neu-bg: #f0f1f4;
     --neu-text: #5a6577;
+    --pos-bg: #6781A1;
+    --pos-text: #ffffff;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -45,6 +47,8 @@
       --input-border: #445a73;
       --neu-bg: #546a84;
       --neu-text: #b0c4d8;
+      --pos-bg: #657F9F;
+      --pos-text: #ffffff;
     }
   }
 
@@ -92,7 +96,7 @@
   .article .top { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
   .article .cat { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-weight: 700; }
   .article .senti { font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 700; }
-  .senti.pos { background: #e7f6ec; color: #1b7a34; }
+  .senti.pos { background: var(--pos-bg); color: var(--pos-text); }
   .senti.neu { background: var(--neu-bg); color: var(--neu-text); }
   .senti.neg { background: #fdebec; color: #c62828; }
   .article .date { font-size: 11px; color: var(--muted2); margin-left: auto; }
