@@ -88,6 +88,8 @@
   .date-input { padding: 5px 10px; border: 1px solid var(--input-border); border-radius: 12px; font-size: 12px; background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
   .date-input:focus { border-color: var(--accent); }
   .date-sep { font-size: 12px; color: var(--muted); }
+  .data-range-note { font-size: 12px; color: var(--muted); margin-left: 4px; white-space: nowrap; }
+  .data-range-note strong { color: var(--text); font-weight: 600; }
 
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
   .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
@@ -158,6 +160,7 @@
       <span class="date-sep">~</span>
       <input type="date" id="dateTo" class="date-input">
     </span>
+    <span class="data-range-note" id="dataRangeNote"></span>
   </div>
 
   <div class="stats">
@@ -387,6 +390,15 @@ async function init() {
     NEWS = await res.json();
     if (!Array.isArray(NEWS) || NEWS.length === 0) throw new Error("빈 데이터");
     document.getElementById("badge").textContent = "실데이터 " + NEWS.length.toLocaleString() + "건";
+    const allDates = NEWS.map(n => n.date).sort();
+    const minDate = allDates[0], maxDate = allDates[allDates.length - 1];
+    const fmt = d => d.replaceAll("-", ".");
+    document.getElementById("dataRangeNote").innerHTML =
+      `수집 기간&nbsp;<strong>${fmt(minDate)} ~ ${fmt(maxDate)}</strong>`;
+    ["dateFrom", "dateTo"].forEach(id => {
+      document.getElementById(id).min = minDate;
+      document.getElementById(id).max = maxDate;
+    });
     updateDashboard();
   } catch (e) {
     document.getElementById("badge").textContent = "데이터 로드 실패";
