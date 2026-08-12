@@ -376,8 +376,20 @@ document.querySelectorAll(".period-chip").forEach(c => c.addEventListener("click
   document.getElementById("dateRangeWrap").style.display = period === "custom" ? "flex" : "none";
   updateDashboard();
 }));
-document.getElementById("dateFrom").addEventListener("change", e => { customFrom = e.target.value; updateDashboard(); });
-document.getElementById("dateTo").addEventListener("change", e => { customTo = e.target.value; updateDashboard(); });
+document.getElementById("dateFrom").addEventListener("change", e => {
+  const el = e.target, v = el.value;
+  if (el.min && v < el.min) el.value = el.min;
+  if (el.max && v > el.max) el.value = el.max;
+  customFrom = el.value;
+  updateDashboard();
+});
+document.getElementById("dateTo").addEventListener("change", e => {
+  const el = e.target, v = el.value;
+  if (el.min && v < el.min) el.value = el.min;
+  if (el.max && v > el.max) el.value = el.max;
+  customTo = el.value;
+  updateDashboard();
+});
 document.querySelectorAll(".cat-chip").forEach(c => c.addEventListener("click", () => {
   document.querySelectorAll(".cat-chip").forEach(x => x.classList.remove("active"));
   c.classList.add("active");
