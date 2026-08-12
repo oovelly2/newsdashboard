@@ -52,7 +52,7 @@
       --muted: #888888;
       --muted2: #606060;
       --chip-text: #a0a0a0;
-      --chip-active-bg: #899e8c;
+      --chip-active-bg: #6c846f;
       --summary-bg: #161616;
       --summary-text: #a8a8a8;
       --input-border: #333333;
@@ -62,10 +62,10 @@
       --pos-text: #ffffff;
       --neg: #964f4f;
       --article-title: #b8b8b8;
-      --stat-value: #899e8c;
-      --kw-color: #899e8c;
+      --stat-value: #6c846f;
+      --kw-color: #6c846f;
       --badge-bg: #2a3828;
-      --badge-color: #899e8c;
+      --badge-color: #6c846f;
       --cat-bg: #3d5040;
       --cat-color: #d4d4d4;
       --ai-color: #7aaa82;
@@ -292,7 +292,7 @@ function updateDashboard() {
   const keys = Object.keys(bucket).sort();
   document.getElementById("dailyTitle").textContent = byWeek ? "주별 기사량 추이" : "일별 기사량 추이";
 
-  const lineBlue = isDark() ? "#899e8c" : "#4d7045";
+  const lineBlue = isDark() ? "#6c846f" : "#4d7045";
   const lineBlueBg = isDark() ? "rgba(137,158,140,.15)" : "rgba(77,112,69,.12)";
 
   drawChart("chDaily", {
@@ -310,7 +310,7 @@ function updateDashboard() {
   drawChart("chCat", {
     type: "doughnut",
     data: { labels: catKeys.map(c => CAT_LABEL[c]),
-      datasets: [{ data: catKeys.map(c => catCount[c]), backgroundColor: catKeys.map(c => isDark() ? (CAT_COLORS_DARK[c] || "#899e8c") : (CAT_COLORS_LIGHT[c] || "#4d7045")), borderColor: isDark() ? "#262626" : "#ffffff", borderWidth: 2 }] },
+      datasets: [{ data: catKeys.map(c => catCount[c]), backgroundColor: catKeys.map(c => isDark() ? (CAT_COLORS_DARK[c] || "#6c846f") : (CAT_COLORS_LIGHT[c] || "#4d7045")), borderColor: isDark() ? "#262626" : "#ffffff", borderWidth: 2 }] },
     options: { maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { boxWidth: 10, font: { size: 10 } } } } }
   });
 
