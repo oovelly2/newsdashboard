@@ -320,9 +320,9 @@ function updateDashboard() {
     type: "bar",
     data: { labels: ["긍정", "중립", "부정"],
       datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: [
-          isDark() ? "#597191" : "#6781A1",
-          isDark() ? "#777b80" : "#919499",
-          isDark() ? "#974f4f" : "#C26060"
+          isDark() ? "#657F9F" : "#6781A1",
+          isDark() ? "#636769" : "#919499",
+          isDark() ? "#A85F5F" : "#C26060"
         ], borderRadius: 6 }] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { ticks: { font: { weight: 600 } } } } }
   });
