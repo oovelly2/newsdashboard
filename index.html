@@ -38,38 +38,36 @@
     --cat-color: #3a5631;
     --ai-color: #4d7045;
   }
-  @media (prefers-color-scheme: dark) {
-    .article .senti { font-weight: 500; }
-    :root {
-      --bg: #1a1a1a;
-      --text: #6e9c74;
-      --surface: #262626;
-      --border: #333333;
-      --title: #c8c8c8;
-      --accent: #6b9de8;
-      --accent-bg: #1a2540;
-      --accent-hover: #1e2d4d;
-      --muted: #888888;
-      --muted2: #888888;
-      --chip-text: #a0a0a0;
-      --chip-active-bg: #5b7a5a;
-      --summary-bg: #161616;
-      --summary-text: #a8a8a8;
-      --input-border: #333333;
-      --neu-bg: #636769;
-      --neu-text: #e2e2e2;
-      --pos-bg: #657F9F;
-      --pos-text: #e2e2e2;
-      --neg: #A85F5F;
-      --article-title: #b8b8b8;
-      --stat-value: #6e9c74;
-      --kw-color: #6e9c74;
-      --badge-bg: #3d5240;
-      --badge-color: #d4d4d4;
-      --cat-bg: #4a6248;
-      --cat-color: #d4d4d4;
-      --ai-color: #6e9c74;
-    }
+  body.dark .article .senti { font-weight: 500; }
+  body.dark {
+    --bg: #1a1a1a;
+    --text: #6e9c74;
+    --surface: #262626;
+    --border: #333333;
+    --title: #c8c8c8;
+    --accent: #6b9de8;
+    --accent-bg: #1a2540;
+    --accent-hover: #1e2d4d;
+    --muted: #888888;
+    --muted2: #888888;
+    --chip-text: #a0a0a0;
+    --chip-active-bg: #5b7a5a;
+    --summary-bg: #161616;
+    --summary-text: #a8a8a8;
+    --input-border: #333333;
+    --neu-bg: #636769;
+    --neu-text: #e2e2e2;
+    --pos-bg: #657F9F;
+    --pos-text: #e2e2e2;
+    --neg: #A85F5F;
+    --article-title: #b8b8b8;
+    --stat-value: #6e9c74;
+    --kw-color: #6e9c74;
+    --badge-bg: #3d5240;
+    --badge-color: #d4d4d4;
+    --cat-bg: #4a6248;
+    --cat-color: #d4d4d4;
+    --ai-color: #6e9c74;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -79,7 +77,7 @@
   header h1 { font-size: 18px; color: var(--title); }
   header h1 .pin { color: #e5484d; }
   header .badge { font-size: 11px; background: var(--badge-bg); color: var(--badge-color); padding: 3px 10px; border-radius: 12px; font-weight: 600; }
-  header .period { margin-left: auto; font-size: 12px; color: var(--muted); }
+  header .period { font-size: 12px; color: var(--muted); }
 
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
 
@@ -141,9 +139,10 @@
 
   footer { text-align: center; font-size: 11px; color: var(--muted2); padding: 10px 0 30px; }
   @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } .charts { grid-template-columns: 1fr; } }
-  @media (prefers-color-scheme: dark) {
-    .senti.neg { background: #A85F5F; color: #e2e2e2; }
-  }
+  body.dark .senti.neg { background: #A85F5F; color: #e2e2e2; }
+
+  #darkToggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 5px; }
+  #darkToggle:hover { background: var(--accent-bg); }
 </style>
 </head>
 <body>
@@ -151,6 +150,7 @@
 <header>
   <h1><span class="pin">📍</span> 핀포인트 — 화성시 언론보도 대시보드</h1>
   <span class="badge" id="badge">데이터 불러오는 중…</span>
+  <button id="darkToggle" onclick="toggleDark()">🌙 다크</button>
 </header>
 
 <div class="wrap">
@@ -225,7 +225,20 @@ const fmtDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, 
 const md = s => s.slice(5).replace("-", "/");
 
 function isDark() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return document.body.classList.contains('dark');
+}
+function toggleDark() {
+  const on = document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', on ? '1' : '0');
+  document.getElementById('darkToggle').textContent = on ? '☀️ 라이트' : '🌙 다크';
+  applyChartDefaults();
+  if (NEWS.length) updateDashboard();
+}
+if (localStorage.getItem('darkMode') === '1') {
+  document.body.classList.add('dark');
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('darkToggle').textContent = '☀️ 라이트';
+  });
 }
 
 function applyChartDefaults() {
@@ -383,10 +396,6 @@ document.getElementById("kwList").addEventListener("click", e => {
   renderList();
 });
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  applyChartDefaults();
-  if (NEWS.length) updateDashboard();
-});
 
 async function init() {
   applyChartDefaults();
