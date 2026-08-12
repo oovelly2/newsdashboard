@@ -88,8 +88,8 @@
   .date-input { padding: 5px 10px; border: 1px solid var(--input-border); border-radius: 12px; font-size: 12px; background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
   .date-input:focus { border-color: var(--accent); }
   .date-sep { font-size: 12px; color: var(--muted); }
-  .data-range-note { font-size: 12px; color: var(--muted); margin-left: 4px; white-space: nowrap; }
-  .data-range-note strong { color: var(--text); font-weight: 600; }
+  .data-range-note { font-size: 14px; color: var(--muted); margin-left: 4px; white-space: nowrap; }
+  .data-range-note strong { color: var(--text); font-weight: 700; }
 
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
   .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
@@ -145,7 +145,6 @@
 <header>
   <h1><span class="pin">📍</span> 핀포인트 — 화성시 언론보도 대시보드</h1>
   <span class="badge" id="badge">데이터 불러오는 중…</span>
-  <span class="period" id="period"></span>
 </header>
 
 <div class="wrap">
@@ -269,9 +268,6 @@ function updateDashboard() {
   document.getElementById("stNegRate").textContent = total ? "전체의 " + Math.round(negCount / total * 100) + "%" : "";
   document.getElementById("stTopCat").textContent = topCat ? CAT_LABEL[topCat[0]] : "-";
   document.getElementById("stTopKw").textContent = kwSorted.length ? kwSorted[0][0] : "-";
-  const dates = data.map(n => n.date).sort();
-  document.getElementById("period").textContent = dates.length
-    ? dates[0].replaceAll("-", ".") + " ~ " + dates[dates.length - 1].replaceAll("-", ".") : "";
 
   document.getElementById("kwList").innerHTML = kwSorted.slice(0, 8)
     .map(([k, c]) => `<span class="kw">${k} <b>${c}</b></span>`).join("");
