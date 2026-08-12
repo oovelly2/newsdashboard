@@ -60,7 +60,7 @@
       --neu-text: #e2e2e2;
       --pos-bg: #657F9F;
       --pos-text: #e2e2e2;
-      --neg: #A85F5F;
+      --neg: #854f4f;
       --article-title: #b8b8b8;
       --stat-value: #6e9c74;
       --kw-color: #6e9c74;
@@ -300,7 +300,7 @@ function updateDashboard() {
     data: { labels: keys.map(k => byWeek ? md(k) + "~" : md(k)),
       datasets: [
         { label: "전체", data: keys.map(k => bucket[k]), borderColor: lineBlue, backgroundColor: lineBlueBg, fill: true, tension: .35, pointRadius: 3 },
-        { label: "부정", data: keys.map(k => negBucket[k]), borderColor: isDark() ? "#A85F5F" : "#C26060", backgroundColor: isDark() ? "rgba(168,95,95,.22)" : "rgba(194,96,96,.17)", fill: true, tension: .35, pointRadius: 3 }
+        { label: "부정", data: keys.map(k => negBucket[k]), borderColor: isDark() ? "#854f4f" : "#C26060", backgroundColor: isDark() ? "rgba(168,95,95,.22)" : "rgba(194,96,96,.17)", fill: true, tension: .35, pointRadius: 3 }
       ] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: true, position: "top", labels: { boxWidth: 24, font: { size: 11 } } } }, scales: { y: { beginAtZero: true } } }
   });
@@ -322,7 +322,7 @@ function updateDashboard() {
       datasets: [{ data: [sentiCount["긍정"], sentiCount["중립"], sentiCount["부정"]], backgroundColor: [
           isDark() ? "#4e637f" : "#6781A1",
           isDark() ? "#606368" : "#919499",
-          isDark() ? "#784747" : "#C26060"
+          isDark() ? "#854f4f" : "#C26060"
         ], borderRadius: 6 }] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true }, x: { ticks: { font: { weight: 600 } } } } }
   });
