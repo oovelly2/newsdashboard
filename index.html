@@ -92,7 +92,6 @@
   .date-sep { font-size: 12px; color: var(--muted); }
   .period-chips-col { display: flex; flex-direction: column; gap: 6px; }
   .period-chips-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .period-row2 { display: flex; align-items: center; gap: 10px; }
   .data-range-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
   .data-range-note strong { color: var(--text); font-weight: 700; font-size: 14px; }
 
@@ -177,16 +176,14 @@
         <span class="chip period-chip active" data-p="all">전체</span>
         <span class="chip period-chip" data-p="7">최근 7일</span>
         <span class="chip period-chip" data-p="30">최근 30일</span>
-      </div>
-      <div class="period-row2">
         <span class="chip period-chip" data-p="custom">날짜 선택</span>
-        <span class="date-range-wrap" id="dateRangeWrap" style="display:none">
+        <span class="date-range-wrap" id="dateRangeWrap">
           <input type="date" id="dateFrom" class="date-input">
           <span class="date-sep">~</span>
           <input type="date" id="dateTo" class="date-input">
         </span>
-        <div class="data-range-note" id="dataRangeNote"></div>
       </div>
+      <div class="data-range-note" id="dataRangeNote"></div>
     </div>
   </div>
 
