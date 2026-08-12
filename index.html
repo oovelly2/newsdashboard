@@ -6,7 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>핀포인트 — 화성시 언론보도 대시보드</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 <style>
   :root {
     --bg: #F5F7F5;
@@ -140,6 +143,18 @@
   footer { text-align: center; font-size: 11px; color: var(--muted2); padding: 10px 0 30px; }
   @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } .charts { grid-template-columns: 1fr; } }
   body.dark .senti.neg { background: #A85F5F; color: #e2e2e2; }
+
+  /* Flatpickr 커스텀 스타일 */
+  .flatpickr-calendar { font-family: 'Pretendard', sans-serif; font-size: 13px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.12); background: var(--surface); border-radius: 10px; }
+  .flatpickr-day { color: var(--text); border-radius: 6px; }
+  .flatpickr-day.selected, .flatpickr-day.selected:hover { background: var(--chip-active-bg); border-color: var(--chip-active-bg); color: #fff; }
+  .flatpickr-day:hover { background: var(--accent-bg); }
+  .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover { color: #ccc; background: none; }
+  body.dark .flatpickr-day.flatpickr-disabled, body.dark .flatpickr-day.flatpickr-disabled:hover { color: #444; }
+  .flatpickr-months .flatpickr-month, .flatpickr-weekdays, span.flatpickr-weekday { background: var(--surface); color: var(--text); }
+  .flatpickr-current-month .flatpickr-monthDropdown-months, .flatpickr-current-month input.cur-year { color: var(--title); font-weight: 600; }
+  .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--muted); }
+  .numInputWrapper:hover, .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: var(--accent-bg); }
 
   #darkToggle { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 12px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 5px; }
   #darkToggle:hover { background: var(--accent-bg); }
@@ -376,20 +391,14 @@ document.querySelectorAll(".period-chip").forEach(c => c.addEventListener("click
   document.getElementById("dateRangeWrap").style.display = period === "custom" ? "flex" : "none";
   updateDashboard();
 }));
-document.getElementById("dateFrom").addEventListener("change", e => {
-  const el = e.target, v = el.value;
-  if (el.min && v < el.min) el.value = el.min;
-  if (el.max && v > el.max) el.value = el.max;
-  customFrom = el.value;
-  updateDashboard();
-});
-document.getElementById("dateTo").addEventListener("change", e => {
-  const el = e.target, v = el.value;
-  if (el.min && v < el.min) el.value = el.min;
-  if (el.max && v > el.max) el.value = el.max;
-  customTo = el.value;
-  updateDashboard();
-});
+let fpFrom, fpTo;
+function initFlatpickr(minDate, maxDate) {
+  const opts = { locale: "ko", dateFormat: "Y-m-d", minDate, maxDate, disableMobile: false };
+  if (fpFrom) fpFrom.destroy();
+  if (fpTo) fpTo.destroy();
+  fpFrom = flatpickr("#dateFrom", { ...opts, onChange: ([d]) => { customFrom = d ? d.toISOString().slice(0,10) : ""; updateDashboard(); } });
+  fpTo   = flatpickr("#dateTo",   { ...opts, onChange: ([d]) => { customTo   = d ? d.toISOString().slice(0,10) : ""; updateDashboard(); } });
+}
 document.querySelectorAll(".cat-chip").forEach(c => c.addEventListener("click", () => {
   document.querySelectorAll(".cat-chip").forEach(x => x.classList.remove("active"));
   c.classList.add("active");
@@ -422,10 +431,7 @@ async function init() {
     const fmt = d => d.replaceAll("-", ".");
     document.getElementById("dataRangeNote").innerHTML =
       `수집 기간&nbsp;<strong>${fmt(minDate)} ~ ${fmt(maxDate)}</strong>`;
-    ["dateFrom", "dateTo"].forEach(id => {
-      document.getElementById(id).min = minDate;
-      document.getElementById(id).max = maxDate;
-    });
+    initFlatpickr(minDate, maxDate);
     updateDashboard();
   } catch (e) {
     document.getElementById("badge").textContent = "데이터 로드 실패";
