@@ -42,7 +42,7 @@
     .article .senti { font-weight: 500; }
     :root {
       --bg: #1a1a1a;
-      --text: #69926E;
+      --text: #7aaa82;
       --surface: #262626;
       --border: #333333;
       --title: #c8c8c8;
@@ -52,7 +52,7 @@
       --muted: #888888;
       --muted2: #606060;
       --chip-text: #a0a0a0;
-      --chip-active-bg: #69926E;
+      --chip-active-bg: #7aaa82;
       --summary-bg: #161616;
       --summary-text: #a8a8a8;
       --input-border: #333333;
@@ -62,8 +62,8 @@
       --pos-text: #ffffff;
       --neg: #A85F5F;
       --article-title: #b8b8b8;
-      --stat-value: #69926E;
-      --kw-color: #69926E;
+      --stat-value: #7aaa82;
+      --kw-color: #7aaa82;
       --badge-bg: #2a3828;
       --badge-color: #d4d4d4;
       --cat-bg: #2D3829;
@@ -292,7 +292,7 @@ function updateDashboard() {
   const keys = Object.keys(bucket).sort();
   document.getElementById("dailyTitle").textContent = byWeek ? "주별 기사량 추이" : "일별 기사량 추이";
 
-  const lineBlue = isDark() ? "#69926E" : "#4d7045";
+  const lineBlue = isDark() ? "#7aaa82" : "#4d7045";
   const lineBlueBg = isDark() ? "rgba(137,158,140,.15)" : "rgba(77,112,69,.12)";
 
   drawChart("chDaily", {
